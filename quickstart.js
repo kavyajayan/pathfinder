@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 var path = require("path");
 const express = require('express');
 const app = express();
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var lat = [];
 var lng = [];
@@ -145,12 +146,18 @@ function listMajors(auth) {
   });
 }
 
+setInterval(listMajors,10000);
+
 app.get('/',function(req,res){
-  return res.json({latitude:lat, logitude:lng})
+  res.json({latitude:lat, longitude:lng})
 })
 
 app.get('/main',function(req,res){
   return res.sendFile(path.join('/home/kavya/projects/pathfinder'+'/example.html'))
+})
+
+app.get('/index.js',function(req,res){
+  return res.sendFile(path.join('/home/kavya/projects/pathfinder'+'/index.js'))
 })
 
 app.listen(3000,function(){
