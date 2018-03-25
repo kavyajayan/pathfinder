@@ -146,10 +146,19 @@ function listMajors(auth) {
   });
 }
 
-setInterval(listMajors,10000);
+// setInterval(listMajors,10000);
 
 app.get('/',function(req,res){
-  res.json({latitude:lat, longitude:lng})
+  res.json({latitude:lat, longitude:lng});
+  fs.readFile('client_secret.json', function processClientSecrets(err, content) {
+    if (err) {
+      console.log('Error loading client secret file: ' + err);
+      return;
+    }
+    // Authorize a client with the loaded credentials, then call the
+    // Google Sheets API.
+    authorize(JSON.parse(content), listMajors);
+  });
 })
 
 app.get('/main',function(req,res){
